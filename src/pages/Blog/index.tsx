@@ -52,10 +52,13 @@ const BlogPage = () => {
                 Khám phá các phản ứng hóa học trong nấu ăn
               </h2>
               <p className="text-slate-600 text-lg leading-relaxed">
-                Hóa học không chỉ tồn tại trong phòng thí nghiệm mà còn hiện diện trong mọi món ăn chúng ta nấu hàng ngày. Từ việc làm bánh mì nở đến việc tạo ra màu sắc hấp dẫn cho món ăn, tất cả đều là những phản ứng hóa học thú vị.
+                Hóa học không chỉ tồn tại trong phòng thí nghiệm mà còn hiện
+                diện trong mọi món ăn chúng ta nấu hàng ngày. Từ việc làm bánh
+                mì nở đến việc tạo ra màu sắc hấp dẫn cho món ăn, tất cả đều là
+                những phản ứng hóa học thú vị.
               </p>
-              <Link 
-                to="#" 
+              <Link
+                to="#"
                 className="inline-flex items-center gap-3 bg-blue-600 text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700 transition-all shadow-xl hover:shadow-2xl hover:scale-105"
               >
                 Đọc thêm <ArrowRight className="w-5 h-5" />
@@ -66,21 +69,37 @@ const BlogPage = () => {
 
         {/* Research Techniques Section */}
         <section className="mb-28">
-          <h2 className="text-4xl font-bold text-slate-900 mb-12">Kỹ thuật nghiên cứu</h2>
+          <h2 className="text-4xl font-bold text-slate-900 mb-12">
+            Kỹ thuật nghiên cứu
+          </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: 'Phương pháp phân tích', color: 'from-blue-600 to-blue-800', icon: '🔬' },
-              { title: 'Kỹ thuật tổng hợp', color: 'from-purple-600 to-purple-800', icon: '⚗️' },
-              { title: 'Nghiên cứu ứng dụng', color: 'from-pink-600 to-pink-800', icon: '🧪' }
+              {
+                title: "Phương pháp phân tích",
+                color: "from-blue-600 to-blue-800",
+                icon: "🔬",
+              },
+              {
+                title: "Kỹ thuật tổng hợp",
+                color: "from-purple-600 to-purple-800",
+                icon: "⚗️",
+              },
+              {
+                title: "Nghiên cứu ứng dụng",
+                color: "from-pink-600 to-pink-800",
+                icon: "🧪",
+              },
             ].map((item, i) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 className={`bg-gradient-to-br ${item.color} rounded-3xl p-10 text-white relative overflow-hidden group cursor-pointer shadow-xl hover:shadow-2xl transition-all hover:scale-105`}
               >
                 <div className="relative z-10 space-y-6">
                   <div className="text-6xl">{item.icon}</div>
                   <h3 className="text-2xl font-bold">{item.title}</h3>
-                  <p className="text-white/80">Tìm hiểu các phương pháp và kỹ thuật nghiên cứu hiện đại</p>
+                  <p className="text-white/80">
+                    Tìm hiểu các phương pháp và kỹ thuật nghiên cứu hiện đại
+                  </p>
                   <div className="inline-flex items-center gap-3 font-bold group-hover:gap-5 transition-all">
                     Xem thêm <ArrowRight className="w-5 h-5" />
                   </div>
@@ -93,20 +112,22 @@ const BlogPage = () => {
 
         {/* Categories Section */}
         <section className="mb-28">
-          <h2 className="text-4xl font-bold text-slate-900 mb-12 text-center">Danh mục bài viết</h2>
+          <h2 className="text-4xl font-bold text-slate-900 mb-12 text-center">
+            Danh mục bài viết
+          </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              'Hóa học hữu cơ',
-              'Hóa học vô cơ',
-              'Hóa học phân tích',
-              'Hóa học lý thuyết',
-              'Hóa sinh học',
-              'Hóa học môi trường',
-              'Hóa học ứng dụng',
-              'Thí nghiệm'
+              "Hóa học hữu cơ",
+              "Hóa học vô cơ",
+              "Hóa học phân tích",
+              "Hóa học lý thuyết",
+              "Hóa sinh học",
+              "Hóa học môi trường",
+              "Hóa học ứng dụng",
+              "Thí nghiệm",
             ].map((category, i) => (
-              <button 
-                key={i} 
+              <button
+                key={i}
                 className="bg-white border-2 border-blue-200 hover:border-blue-600 text-slate-800 hover:text-blue-600 px-6 py-4 rounded-full font-bold transition-all shadow-md hover:shadow-xl hover:scale-105"
               >
                 {category}
@@ -117,12 +138,14 @@ const BlogPage = () => {
 
         {/* Registration Section */}
         <section className="mb-28 bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-16 text-center text-white shadow-2xl">
-          <h3 className="text-4xl font-bold mb-6">Đăng nhập để trải nghiệm đầy đủ</h3>
+          <h3 className="text-4xl font-bold mb-6">
+            Đăng nhập để trải nghiệm đầy đủ
+          </h3>
           <p className="text-blue-100 text-lg mb-10 max-w-2xl mx-auto">
             Truy cập tất cả các bài viết, tài liệu và tính năng độc quyền
           </p>
-          <Link 
-            to="/experience" 
+          <Link
+            to="/experience"
             className="inline-flex items-center gap-3 bg-white text-blue-900 px-12 py-5 rounded-full font-bold text-lg hover:bg-blue-50 transition-all shadow-xl hover:shadow-2xl hover:scale-105"
           >
             Đăng nhập ngay <ArrowRight className="w-6 h-6" />
@@ -131,15 +154,20 @@ const BlogPage = () => {
 
         {/* Gallery Section */}
         <section className="mb-28">
-          <h2 className="text-4xl font-bold text-slate-900 mb-12">Vật liệu và Công nghệ</h2>
+          <h2 className="text-4xl font-bold text-slate-900 mb-12">
+            Vật liệu và Công nghệ
+          </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: 'Vật liệu nano', color: 'from-cyan-600 to-blue-700' },
-              { title: 'Polymer sinh học', color: 'from-purple-600 to-pink-700' },
-              { title: 'Vật liệu xanh', color: 'from-green-600 to-teal-700' }
+              { title: "Vật liệu nano", color: "from-cyan-600 to-blue-700" },
+              {
+                title: "Polymer sinh học",
+                color: "from-purple-600 to-pink-700",
+              },
+              { title: "Vật liệu xanh", color: "from-green-600 to-teal-700" },
             ].map((item, i) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 className={`bg-gradient-to-br ${item.color} rounded-3xl aspect-[4/5] relative overflow-hidden group cursor-pointer shadow-2xl hover:shadow-3xl transition-all hover:scale-105`}
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10"></div>

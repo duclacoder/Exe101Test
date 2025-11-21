@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "../../components/Layout";
-import HomePage from "../../pages/Home";
-import ProductsPage from "../../pages/Products";
 import AboutPage from "../../pages/About";
 import BlogPage from "../../pages/Blog";
-import SupportPage from "../../pages/Support";
 import ExperiencePage from "../../pages/Experience";
+import HomePage from "../../pages/Home";
+import ProductsPage from "../../pages/Products";
+import SupportPage from "../../pages/Support";
 
 export const AppRoutes = () => {
   return (

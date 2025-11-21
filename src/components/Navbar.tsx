@@ -1,14 +1,16 @@
 import { Menu } from "lucide-react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../shared/assets/LogoChemX.png";
-import { useState } from "react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
   const isActive = (path: string) => {
-    return location.pathname === path ? "text-blue-400" : "text-gray-300 hover:text-blue-400";
+    return location.pathname === path
+      ? "text-blue-400"
+      : "text-gray-300 hover:text-blue-400";
   };
 
   const navLinks = [
@@ -53,7 +55,7 @@ const Navbar = () => {
         </nav>
 
         {/* Mobile Menu Button */}
-        <button 
+        <button
           className="md:hidden text-white"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >

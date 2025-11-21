@@ -9,7 +9,9 @@ const Footer = () => {
           <div className="grid md:grid-cols-3 gap-8 items-center mb-8">
             {/* Left - Email Subscription */}
             <div className="text-center md:text-left">
-              <h3 className="text-xl font-bold text-slate-800 mb-2">Đăng ký thông tin</h3>
+              <h3 className="text-xl font-bold text-slate-800 mb-2">
+                Đăng ký thông tin
+              </h3>
               <p className="text-sm text-slate-600 mb-4">
                 Đăng ký để nhận thông tin mới nhất về ChemXLab nhé!
               </p>
@@ -27,7 +29,11 @@ const Footer = () => {
 
             {/* Center - Logo */}
             <div className="flex justify-center">
-              <img src={logo} alt="ChemXLab" className="h-20 object-contain drop-shadow-lg" />
+              <img
+                src={logo}
+                alt="ChemXLab"
+                className="h-20 object-contain drop-shadow-lg"
+              />
             </div>
 
             {/* Right - Social Links */}
