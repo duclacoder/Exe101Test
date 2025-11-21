@@ -1,5 +1,5 @@
-import React from 'react';
-import { Atom, Beaker, FlaskConical, Search, Menu } from 'lucide-react';
+import { Atom, Beaker, FlaskConical, Menu } from 'lucide-react';
+import logo from '../../shared/assets/LogoChemX.png';
 
 const HomePage = () => {
   return (
@@ -8,8 +8,19 @@ const HomePage = () => {
       <header className="fixed top-0 w-full bg-slate-900/80 backdrop-blur-md z-50 border-b border-blue-500/20">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Beaker className="w-8 h-8 text-blue-400" />
-            <span className="text-2xl font-bold text-white">CHEMXLAB</span>
+            <div className="flex items-center">
+              <span className="text-2xl md:text-3xl font-bold text-white tracking-wider">
+                CHEM
+              </span>
+              <img
+                src={logo}
+                alt="ChemXLab"
+                className="h-10 w-auto object-contain mx-1"
+              />
+              <span className="text-2xl md:text-3xl font-bold text-white tracking-wider">
+                LAB
+              </span>
+            </div>
           </div>
           <nav className="hidden md:flex items-center gap-8">
             <a href="#" className="text-gray-300 hover:text-blue-400 transition">Trang chủ</a>
@@ -47,7 +58,7 @@ const HomePage = () => {
                 CHEMXLAB
               </span>
             </h1>
-            
+
             <div className="flex justify-center mb-12">
               <div className="relative">
                 <div className="w-48 h-48 relative animate-spin-slow">
@@ -124,7 +135,7 @@ const HomePage = () => {
               Đăng ký để trải nghiệm ngay
             </h2>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
             {[
               { color: 'from-red-500 to-pink-500', icon: '🧪' },
@@ -156,7 +167,7 @@ const HomePage = () => {
                 Khám phá thế giới hóa học với công nghệ hiện đại
               </p>
             </div>
-            
+
             <div>
               <h4 className="text-white font-semibold mb-4">Liên kết</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
@@ -165,7 +176,7 @@ const HomePage = () => {
                 <li><a href="#" className="hover:text-blue-400 transition">Liên hệ</a></li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="text-white font-semibold mb-4">Theo dõi</h4>
               <div className="flex gap-4">
@@ -180,7 +191,7 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="text-center text-gray-500 text-sm pt-8 border-t border-gray-800">
             © 2024 ChemXLab. All rights reserved.
           </div>
