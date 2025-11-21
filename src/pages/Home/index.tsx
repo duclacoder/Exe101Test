@@ -1,5 +1,5 @@
-import { Atom, Beaker, FlaskConical, Menu } from 'lucide-react';
-import logo from '../../shared/assets/LogoChemX.png';
+import { Atom, Beaker, FlaskConical, Menu } from "lucide-react";
+import logo from "../../shared/assets/LogoChemX.png";
 
 const HomePage = () => {
   return (
@@ -23,10 +23,30 @@ const HomePage = () => {
             </div>
           </div>
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#" className="text-gray-300 hover:text-blue-400 transition">Trang chủ</a>
-            <a href="#" className="text-gray-300 hover:text-blue-400 transition">Giới thiệu</a>
-            <a href="#" className="text-gray-300 hover:text-blue-400 transition">Dịch vụ</a>
-            <a href="#" className="text-gray-300 hover:text-blue-400 transition">Liên hệ</a>
+            <a
+              href="#"
+              className="text-gray-300 hover:text-blue-400 transition"
+            >
+              Trang chủ
+            </a>
+            <a
+              href="#"
+              className="text-gray-300 hover:text-blue-400 transition"
+            >
+              Giới thiệu
+            </a>
+            <a
+              href="#"
+              className="text-gray-300 hover:text-blue-400 transition"
+            >
+              Dịch vụ
+            </a>
+            <a
+              href="#"
+              className="text-gray-300 hover:text-blue-400 transition"
+            >
+              Liên hệ
+            </a>
           </nav>
           <Menu className="md:hidden w-6 h-6 text-white" />
         </div>
@@ -62,7 +82,10 @@ const HomePage = () => {
             <div className="flex justify-center mb-12">
               <div className="relative">
                 <div className="w-48 h-48 relative animate-spin-slow">
-                  <Atom className="w-full h-full text-blue-400 opacity-80" strokeWidth={1} />
+                  <Atom
+                    className="w-full h-full text-blue-400 opacity-80"
+                    strokeWidth={1}
+                  />
                 </div>
                 <FlaskConical className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 text-cyan-300" />
               </div>
@@ -92,7 +115,9 @@ const HomePage = () => {
               <span className="text-cyan-300">X</span>
               <span className="text-blue-400">LAB</span>
             </h2>
-            <p className="text-gray-400 text-sm tracking-widest">KHÁM PHÁ CHEMXLAB</p>
+            <p className="text-gray-400 text-sm tracking-widest">
+              KHÁM PHÁ CHEMXLAB
+            </p>
           </div>
         </div>
       </section>
@@ -107,7 +132,8 @@ const HomePage = () => {
                 Mô hình 3D động động
               </h3>
               <p className="text-blue-100 relative z-10">
-                Trải nghiệm các phân tử và cấu trúc hóa học trong không gian 3D tương tác
+                Trải nghiệm các phân tử và cấu trúc hóa học trong không gian 3D
+                tương tác
               </p>
               <div className="mt-6 text-white/50 relative z-10">→</div>
             </div>
@@ -138,10 +164,10 @@ const HomePage = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
             {[
-              { color: 'from-red-500 to-pink-500', icon: '🧪' },
-              { color: 'from-gray-700 to-gray-900', icon: '⚗️' },
-              { color: 'from-purple-500 to-pink-500', icon: '🔬' },
-              { color: 'from-blue-500 to-cyan-500', icon: '🧬' },
+              { color: "from-red-500 to-pink-500", icon: "🧪" },
+              { color: "from-gray-700 to-gray-900", icon: "⚗️" },
+              { color: "from-purple-500 to-pink-500", icon: "🔬" },
+              { color: "from-blue-500 to-cyan-500", icon: "🧬" },
             ].map((item, i) => (
               <div
                 key={i}
@@ -171,16 +197,28 @@ const HomePage = () => {
             <div>
               <h4 className="text-white font-semibold mb-4">Liên kết</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
-                <li><a href="#" className="hover:text-blue-400 transition">Giới thiệu</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition">Dịch vụ</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition">Liên hệ</a></li>
+                <li>
+                  <a href="#" className="hover:text-blue-400 transition">
+                    Giới thiệu
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-blue-400 transition">
+                    Dịch vụ
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-blue-400 transition">
+                    Liên hệ
+                  </a>
+                </li>
               </ul>
             </div>
 
             <div>
               <h4 className="text-white font-semibold mb-4">Theo dõi</h4>
               <div className="flex gap-4">
-                {['f', 'in', 'yt'].map((social, i) => (
+                {["f", "in", "yt"].map((social, i) => (
                   <div
                     key={i}
                     className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 hover:bg-blue-500/30 transition cursor-pointer"

@@ -4,8 +4,7 @@ import { AppRoutes } from "./routes";
 const App = () => {
   return (
     <AppProviders>
-      
-        <AppRoutes />
+      <AppRoutes />
     </AppProviders>
   );
 };
