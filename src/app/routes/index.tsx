@@ -6,6 +6,7 @@ import ExperiencePage from "../../pages/Experience";
 import HomePage from "../../pages/Home";
 import ProductsPage from "../../pages/Products";
 import SupportPage from "../../pages/Support";
+import LabPage from "../../pages/Lab";
 
 export const AppRoutes = () => {
   return (
@@ -18,6 +19,7 @@ export const AppRoutes = () => {
         <Route path="support" element={<SupportPage />} />
         <Route path="experience" element={<ExperiencePage />} />
       </Route>
+      <Route path="lab" element={<LabPage/>} />
     </Routes>
   );
 };

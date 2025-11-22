@@ -1,6 +1,6 @@
 import { ArrowRight, Atom, Beaker, FlaskConical } from "lucide-react";
 import { Link } from "react-router-dom";
-import logo from "../../shared/assets/LogoChemX.png";
+import logo from "../../shared/assets/Logo/LogoChemX.png";
 
 const HomePage = () => {
   return (
