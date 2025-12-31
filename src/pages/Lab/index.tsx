@@ -1,8 +1,173 @@
 import React, { useRef, useEffect, useState } from 'react';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { LabStyle } from './style';
 import Reaction from './reaction';
 
-// Data cho Atom Viewer (Giữ nguyên)
+
+const Atom3DViewer = ({ src, isRotating, id, style }: { src: string, isRotating: boolean, id: string, style?: React.CSSProperties }) => {
+  const mountRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const modelRef = useRef<THREE.Group | null>(null);
+
+  useEffect(() => {
+    if (!mountRef.current) return;
+
+    // 1. Setup Scene
+    const scene = new THREE.Scene();
+    sceneRef.current = scene;
+
+    const w = mountRef.current.clientWidth;
+    const h = mountRef.current.clientHeight;
+
+    // Camera
+    const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
+    camera.position.set(0, 0, 4); // Lùi camera ra xa hơn một chút để bao quát
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(w, h);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    // --- KHẮC PHỤC LỖI ĐEN VÀ TỐI ---
+    // 1. Hệ màu chuẩn: Giúp texture không bị xỉn màu
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    // 2. Tone Mapping: Cân bằng sáng tối giống mắt người
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2; // Tăng độ phơi sáng lên
+    // -------------------------------
+
+    mountRef.current.appendChild(renderer.domElement);
+
+    // 3. Lighting & Environment (QUAN TRỌNG NHẤT)
+    // Tạo môi trường giả lập (Reflection)
+    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    pmremGenerator.compileEquirectangularShader();
+    const roomEnvironment = new RoomEnvironment();
+    scene.environment = pmremGenerator.fromScene(roomEnvironment).texture;
+    // scene.background = null; // Giữ nền trong suốt
+
+    // Ánh sáng bổ sung (Fill Light) để làm sáng các vùng tối
+    // Tăng cường độ đèn DirectionalLight từ 3 lên 5
+    const dirLight = new THREE.DirectionalLight(0xffffff, 5);
+
+    // Tăng cường độ đèn AmbientLight từ 0.8 lên 1.2
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+
+    const backLight = new THREE.DirectionalLight(0xffffff, 2);
+    backLight.position.set(-5, 5, -5); // Đèn hắt từ phía sau để tạo khối
+    scene.add(backLight);
+
+    // 4. Controls
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enableZoom = true; // Cho phép zoom nếu muốn soi kỹ
+
+    // 5. Animation Loop
+    let requestID: number;
+    const animate = () => {
+      requestID = requestAnimationFrame(animate);
+      if (modelRef.current && isRotating) {
+        modelRef.current.rotation.y += 0.005;
+      }
+      controls.update();
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    // 6. Load Model
+    const loader = new GLTFLoader();
+    const loadModel = (url: string) => {
+      if (modelRef.current) scene.remove(modelRef.current);
+
+      loader.load(url, (gltf) => {
+        const model = gltf.scene;
+
+        // Căn giữa và Scale to lên (Vì trong ảnh của bạn nó đang hơi bé)
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+
+        // Reset vị trí về tâm (0,0,0)
+        model.position.x += (model.position.x - center.x);
+        model.position.y += (model.position.y - center.y);
+        model.position.z += (model.position.z - center.z);
+
+        // Scale fit view (Tăng số 2.0 lên nếu muốn to hơn nữa)
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 2.0 / maxDim;
+        model.scale.setScalar(scale);
+
+        // Duyệt qua từng bộ phận của model để bật bóng đổ (Shadow)
+        model.traverse((child) => {
+          if ((child as THREE.Mesh).isMesh) {
+            (child as THREE.Mesh).castShadow = true;
+            (child as THREE.Mesh).receiveShadow = true;
+            // Nếu model quá tối, có thể ép vật liệu sáng lên (Hack)
+            // const mat = (child as THREE.Mesh).material as THREE.MeshStandardMaterial;
+            // if (mat.map) mat.envMapIntensity = 1.5; 
+          }
+        });
+
+        scene.add(model);
+        modelRef.current = model;
+      });
+    };
+
+    loadModel(src);
+
+    const handleResize = () => {
+      if (!mountRef.current) return;
+      const width = mountRef.current.clientWidth;
+      const height = mountRef.current.clientHeight;
+      renderer.setSize(width, height);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(requestID);
+      if (mountRef.current && renderer.domElement) {
+        mountRef.current.removeChild(renderer.domElement);
+      }
+      renderer.dispose();
+      pmremGenerator.dispose();
+      roomEnvironment.dispose();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Update logic khi đổi src
+  useEffect(() => {
+    if (!sceneRef.current) return;
+    const loader = new GLTFLoader();
+    loader.load(src, (gltf) => {
+      if (modelRef.current) sceneRef.current?.remove(modelRef.current);
+      const model = gltf.scene;
+
+      const box = new THREE.Box3().setFromObject(model);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+
+      model.position.sub(center);
+      const maxDim = Math.max(size.x, size.y, size.z);
+      model.scale.setScalar(2.0 / maxDim); // Nhớ chỉnh số này giống bên trên
+
+      sceneRef.current?.add(model);
+      modelRef.current = model;
+    });
+  }, [src]);
+
+  return <div id={id} ref={mountRef} style={style} />;
+};
+
+
+// --- DATA (GIỮ NGUYÊN) ---
 const ATOM_DATA: Record<string, any> = {
   potassium: {
     name: 'Kali (K)',
@@ -59,30 +224,23 @@ const Lab = () => {
   const [activeAtom, setActiveAtom] = useState<string>('potassium');
   const [isRotating, setIsRotating] = useState<boolean>(true);
 
-  useEffect(() => {
-    if (!customElements.get('model-viewer')) {
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js';
-      document.body.appendChild(script);
-    }
-  }, []);
+  // ĐÃ BỎ: useEffect inject script model-viewer
 
   const handleAtomChange = (atomKey: string) => setActiveAtom(atomKey);
 
   const toggleRotation = () => {
-    const viewer = document.getElementById('atom-model') as any;
-    if (viewer) {
-      if (isRotating) viewer.removeAttribute('auto-rotate');
-      else viewer.setAttribute('auto-rotate', '');
-      setIsRotating(!isRotating);
-    }
+    // Logic cũ: thao tác DOM setAttribute -> Không cần thiết với React/ThreeJS Component
+    // Nhưng để giữ logic code không đổi, ta chỉ cần update State, component 3D sẽ tự nghe state
+
+    // const viewer = document.getElementById('atom-model') as any; // (Bỏ dòng này vì không dùng custom element nữa)
+
+    // Chỉ cần dòng này là đủ để trigger animation trong ThreeJS
+    setIsRotating(!isRotating);
   };
 
   const openMolecularModal = () => {
     const modal = document.getElementById('molecular-modal-overlay');
-    if(modal) modal.style.display = 'flex';
-    // Trigger init and animation logic inside Reaction component
+    if (modal) modal.style.display = 'flex';
     reactionRef.current?.openMolecular?.();
   };
 
@@ -126,7 +284,7 @@ const Lab = () => {
         <button id="btn-run-molecular-animation" onClick={openMolecularModal}>
           🔬 Mô Phỏng Phân Tử
         </button>
-        <button id="btn-view-atoms" onClick={() => document.getElementById('atom-modal-overlay')!.style.display='flex'}>
+        <button id="btn-view-atoms" onClick={() => document.getElementById('atom-modal-overlay')!.style.display = 'flex'}>
           🧪 Xem Nguyên Tử
         </button>
       </div>
@@ -140,7 +298,7 @@ const Lab = () => {
         <div id="molecular-card">
           <div id="molecular-label-renderer"></div>
           <canvas id="molecular-canvas"></canvas>
-          <button id="molecular-card-close" onClick={(e) => (e.target as HTMLElement).closest('#molecular-modal-overlay')!.style.display='none'}>&times;</button>
+          <button id="molecular-card-close" onClick={(e) => (e.target as HTMLElement).closest('#molecular-modal-overlay')!.style.display = 'none'}>&times;</button>
         </div>
       </div>
 
@@ -149,30 +307,28 @@ const Lab = () => {
         <div id="atom-card">
           <div id="atom-selector">
             {Object.keys(ATOM_DATA).map(key => (
-              <button 
-                key={key} 
-                className={`atom-btn ${activeAtom === key ? 'active' : ''}`} 
+              <button
+                key={key}
+                className={`atom-btn ${activeAtom === key ? 'active' : ''}`}
                 onClick={() => handleAtomChange(key)}
               >
                 {ATOM_DATA[key].name}
               </button>
             ))}
-            <div style={{flex:1}}></div>
-            <button id="atom-card-close" onClick={() => document.getElementById('atom-modal-overlay')!.style.display='none'}>Đóng ✕</button>
+            <div style={{ flex: 1 }}></div>
+            <button id="atom-card-close" onClick={() => document.getElementById('atom-modal-overlay')!.style.display = 'none'}>Đóng ✕</button>
           </div>
 
           <div id="atom-viewer-container">
             <div id="atom-3d-viewer">
-              {/* @ts-ignore */}
-              <model-viewer 
-                id="atom-model" 
-                src={currentAtomData.file} 
-                alt="Atom 3D Model" 
-                auto-rotate 
-                camera-controls 
-                shadow-intensity="1"
-                style={{width: '100%', height: '100%'}}
+              {/* THAY THẾ MODEL-VIEWER BẰNG COMPONENT MỚI */}
+              <Atom3DViewer
+                id="atom-model"
+                src={currentAtomData.file}
+                isRotating={isRotating}
+                style={{ width: '100%', height: '100%' }}
               />
+
               <div id="atom-info">
                 <strong id="atom-name">{currentAtomData.name}</strong>
                 <div id="atom-description">{currentAtomData.description}</div>

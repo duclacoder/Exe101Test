@@ -1,16 +1,13 @@
 import React, { useRef, useEffect, useImperativeHandle } from 'react';
 import * as THREE from "three";
 import * as TWEEN from '@tweenjs/tween.js';
-import { 
-  CSS2DObject, 
-  CSS2DRenderer, 
-  EffectComposer, 
-  OrbitControls, 
-  RenderPass, 
-  RGBELoader, 
-  UnrealBloomPass 
-} from 'three/examples/jsm/Addons.js';
-import { getParticleSystem } from "../../features/particle-system/getParticleSystem";
+import { CSS2DObject, CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+import getParticleSystem from '../../features/particle-system/getParticleSystem';
 
 // --- SHADER CODE (Giữ nguyên) ---
 const waterVertexShader = `

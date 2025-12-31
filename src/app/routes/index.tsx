@@ -7,6 +7,7 @@ import HomePage from "../../pages/Home";
 import ProductsPage from "../../pages/Products";
 import SupportPage from "../../pages/Support";
 import LabPage from "../../pages/Lab";
+import LabTest from "../../pages/Lab/Temp";
 
 export const AppRoutes = () => {
   return (
@@ -17,9 +18,10 @@ export const AppRoutes = () => {
         <Route path="about" element={<AboutPage />} />
         <Route path="blog" element={<BlogPage />} />
         <Route path="support" element={<SupportPage />} />
-        <Route path="experience" element={<ExperiencePage />} />
+        <Route path="experience" element={<ExperiencePage />} />        
       </Route>
       <Route path="lab" element={<LabPage/>} />
+      <Route path="labtest" element={<LabTest />} />
     </Routes>
   );
 };

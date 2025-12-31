@@ -18,7 +18,7 @@ const ProductsPage = () => {
                 không tốn chi phí.
               </p>
               <Link
-                to="/experience"
+                to="/labtest"
                 className="inline-flex items-center gap-3 bg-blue-600 text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700 transition-all shadow-xl hover:shadow-2xl hover:scale-105"
               >
                 Khám phá <ArrowRight className="w-5 h-5" />
